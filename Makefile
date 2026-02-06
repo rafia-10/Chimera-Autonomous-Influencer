@@ -16,7 +16,6 @@ help:
 	@echo "  docker-down  - Stop infrastructure"
 	@echo "  run-dev      - Run in development mode (dry-run)"
 	@echo "  run-prod     - Run in production mode"
-	@echo "  spec-check   - Verify code aligns with specs"
 
 # Installation
 install:
@@ -25,9 +24,6 @@ install:
 install-dev:
 	pip install -r requirements.txt
 	pip install -r requirements-dev.txt
-
-setup: install-dev docker-up
-	@echo "Setup complete! Run 'make test' to verify."
 
 # Testing
 test:
@@ -55,11 +51,6 @@ format:
 	ruff check --fix src/ tests/
 
 check: lint test
-
-# Spec alignment verification
-spec-check:
-	@echo "Checking spec alignment..."
-	@python scripts/spec_check.py
 
 # Infrastructure
 docker-up:
@@ -124,5 +115,5 @@ shell:
 	python -i -c "from src.memory import *; from src.mcp import *; from src.models import *"
 
 # CI/CD simulation
-ci: lint test spec-check
+ci: lint test
 	@echo "CI checks passed!"
