@@ -1,0 +1,47 @@
+# Core dependencies
+pydantic>=2.0
+pydantic-ai
+python-dotenv
+
+# Memory & Storage
+redis>=5.0
+weaviate-client>=4.0
+
+# LLM APIs
+google-generativeai
+# anthropic  # Optional: uncomment if using Claude
+
+# MCP
+mcp
+
+# HTTP & Async
+httpx
+aiohttp
+
+# Social Platform APIs
+tweepy>=4.14.0  # Twitter/X API
+python-linkedin-v2  # LinkedIn API
+
+# Web Framework (for HITL dashboard)
+fastapi
+uvicorn[standard]
+pydantic-settings
+
+# Task Queuing
+# celery[redis]  # Optional: uncomment if using Celery instead of custom queuing
+
+# Utilities
+pyyaml
+python-dateutil
+
+# Development & Testing
+pytest
+pytest-asyncio
+pytest-mock
+black
+ruff
+mypy
+
+# Optional: Commerce (Coinbase AgentKit)
+# coinbase-agentkit
+# cdp-sdk
