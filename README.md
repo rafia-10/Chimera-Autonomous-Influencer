@@ -49,27 +49,43 @@ Verified and structured according to the **GitHub Spec Kit** methodology:
 
 ```
 Chimera-Autonomous-Influencer/
-├── specs/             # SOURCE OF TRUTH (SDD)
-│   ├── _meta.md       # Vision, Goals, & Constraints
-│   ├── functional.md  # User Stories & Requirements
-│   ├── technical.md   # API Contracts & Architecture
+├── specs/                 # SOURCE OF TRUTH (SDD)
+│   ├── _meta.md           # Vision, Goals, & Constraints
+│   ├── functional.md      # User Stories & Requirements
+│   ├── technical.md       # API Contracts & Architecture
 │   └── openclaw_integration.md # Future Network Plan
-├── skills/            # REUSABLE AGENT SKILLS
-│   ├── social_posting/
-│   ├── trend_detection/
-│   └── audience_engagement/
-├── src/               # SOURCE CODE
-│   ├── core/          # Planner, Worker, Judge Services
-│   ├── memory/        # Redis & Weaviate Integrations
-│   ├── generation/    # Content Engine & Adapters
-│   └── mcp/           # MCP Client & Servers
-├── tests/             # VERIFICATION SUITE
-│   ├── unit/          # Logic & Skills testing
-│   ├── integration/   # Swarm & Memory testing
-│   └── e2e/           # Dry-run full cycles
-├── SOUL.md            # Persona Core (Immutable DNA)
-├── Makefile           # Build & Task Automation
-└── Dockerfile         # Deployment Container
+├── skills/                # REUSABLE AGENT SKILLS (Contracts)
+│   ├── social_posting/    # multi-platform publishing logic
+│   ├── trend_detection/   # news polling & scoring logic
+│   └── audience_engagement/ # mention processing & replies
+├── src/                   # SOURCE CODE
+│   ├── core/              # Swarm Services
+│   │   ├── planner/       # Strategic task generation
+│   │   ├── worker/        # Tactical skill execution
+│   │   └── judge/         # Governance & safety review
+│   ├── memory/            # Persistent State
+│   │   ├── short_term.py  # Redis episodic memory
+│   │   └── long_term.py   # Weaviate semantic memory
+│   ├── generation/        # Content Engine
+│   │   ├── content_engine.py # LLM orchestration
+│   │   └── platform_adapter.py # X vs LinkedIn formatting
+│   ├── perception/        # Sensing Layer (Trend Detection)
+│   └── mcp/               # Model Context Protocol
+│       ├── client.py      # Universal Tool Client
+│       └── servers/       # Custom News/Social Servers
+├── config/                # SYSTEM CONFIGURATION
+│   ├── agents.json        # Fleet definitions
+│   ├── mcp_config.json    # Server connection maps
+│   └── safety_policies.json # Governance guardrails
+├── tests/                 # VERIFICATION SUITE
+│   ├── unit/              # Logic & Skills testing
+│   ├── integration/       # Swarm & Memory testing
+│   └── e2e/               # Dry-run full cycles
+├── SOUL.md                # Persona Core (Immutable DNA)
+├── requirements.txt       # Production dependencies
+├── requirements-dev.txt   # Development & Testing tools
+├── Makefile               # Build & Task Automation
+└── Dockerfile             # Deployment Container
 ```
 
 ---
