@@ -1,194 +1,184 @@
-# Project Chimera: Autonomous Tech Influencer
+# Project Chimera - Autonomous AI Influencer
 
-**Status**: 🚧 In Development  
-**Agent**: Nova Intellect  
-**Platforms**: X (Twitter), LinkedIn  
-**Focus**: AI, Startups, Emerging Technology
+**An autonomous AI influencer system powered by GitHub Spec Kit and FastRender Swarm Architecture**
 
 ## Overview
 
-This is an implementation of the **Project Chimera 2026 SRS** autonomous influencer network, configured to operate a single tech-focused AI influencer named **Nova Intellect**.
+Project Chimera is an AI-powered social media influencer ("Nova Intellect") that autonomously creates and publishes content to X (Twitter) and LinkedIn using a Spec-Driven Development approach.
 
-The system uses:
-- **FastRender Swarm Architecture**: Planner-Worker-Judge pattern for robust task execution
-- **Model Context Protocol (MCP)**: Universal interface for external data and tools
-- **Hierarchical Memory**: Redis (short-term) + Weaviate (long-term semantic memory)
-- **Human-in-the-Loop**: Confidence-based escalation for safety and quality control
+### Key Features
 
-## Architecture
+- 🤖 **Autonomous Content Creation** - Generates platform-optimized posts
+- 🎯 **Trending Topic Detection** - Monitors tech news and identifies opportunities
+- 💬 **Audience Engagement** - Responds to mentions and comments
+- 🧠 **Hierarchical Memory** - Short-term (Redis) + Long-term (Weaviate) memory systems
+- 🔌 **MCP Integration** - All external services via Model Context Protocol
+- 🛡️ **Safety First** - HITL review, confidence scoring, ethical disclosure
+- 📊 **Swarm Architecture** - Planner-Worker-Judge pattern for scalability
 
+## Tech Stack
+
+- **Language**: Python 3.11+
+- **LLM**: Google Gemini 2.0 Flash
+- **Memory**: Redis (short-term), Weaviate (long-term)
+- **Integration**: MCP (Model Context Protocol)
+- **Platforms**: X (Twitter), LinkedIn
+- **Development**: GitHub Spec Kit (Spec-Driven Development)
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11+
+- Docker & Docker Compose
+- `uv` package manager
+- GitHub Spec Kit CLI
+
+### Installation
+
+```bash
+# Clone repository
+git clone <repository-url>
+cd Chimera-Autonomous-Influencer
+
+# Install dependencies
+make install-dev
+
+# Start infrastructure (Redis + Weaviate)
+make docker-up
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your API keys
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    Orchestrator                          │
-│  ┌─────────────────────────────────────────────────┐   │
-│  │              Planner Service                     │   │
-│  │  - Monitors trends and goals                     │   │
-│  │  - Decomposes into tasks                         │   │
-│  │  - Manages task queue                            │   │
-│  └──────────────────┬───────────────────────────────┘   │
-│                     │                                    │
-│         ┌───────────┴────────────┐                      │
-│         ▼                        ▼                       │
-│  ┌─────────────┐          ┌─────────────┐              │
-│  │   Worker    │          │    Judge    │              │
-│  │   Pool      │──────────▶   Service   │              │
-│  │             │          │             │              │
-│  │ - Execute   │          │ - Validate  │              │
-│  │   tasks     │          │ - Score     │              │
-│  │ - Generate  │          │ - Escalate  │              │
-│  │   content   │          │   (HITL)    │              │
-│  └─────────────┘          └─────────────┘              │
-└──────────────┬──────────────────┬───────────────────────┘
-               │                  │
-       ┌───────┴────────┐  ┌──────┴─────────┐
-       │  MCP Servers   │  │  Memory Layer  │
-       │                │  │                │
-       │ - Tech News    │  │ - Weaviate     │
-       │ - X/Twitter    │  │ - Redis        │
-       │ - LinkedIn     │  │ - PostgreSQL   │
-       └────────────────┘  └────────────────┘
+
+### GitHub Spec Kit Setup
+
+```bash
+# Install Spec Kit CLI
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# Already initialized! Use slash commands:
+# /speckit.constitution - Define project principles
+# /speckit.specify - Create specifications
+# /speckit.plan - Generate implementation plan
+# /speckit.tasks - Break down into tasks
+# /speckit.implement - Execute implementation
+```
+
+### Running the System
+
+```bash
+# Development mode (dry-run, no actual posting)
+make run-dev
+
+# Run tests
+make test
+
+# Check code quality
+make lint
+
+# Format code
+make format
 ```
 
 ## Project Structure
 
 ```
 Chimera-Autonomous-Influencer/
-├── SOUL.md                    # Persona definition (immutable DNA)
-├── src/
-│   ├── core/
-│   │   ├── planner/          # Planning service
-│   │   ├── worker/           # Worker execution pool
-│   │   └── judge/            # Quality assurance & governance
-│   ├── memory/
-│   │   ├── context.py        # Context assembly (SOUL + memories)
-│   │   ├── short_term.py     # Redis episodic memory
-│   │   └── long_term.py      # Weaviate semantic memory
-│   ├── perception/
-│   │   ├── resource_monitor.py  # MCP resource polling
-│   │   ├── semantic_filter.py   # Relevance scoring
-│   │   └── trend_detector.py    # Pattern detection
-│   ├── generation/
-│   │   ├── content_engine.py    # Multimodal generation
-│   │   └── platform_adapter.py  # X vs LinkedIn tone
-│   ├── action/
-│   │   └── publisher.py         # MCP tool execution
-│   └── mcp/
-│       ├── client.py            # MCP client wrapper
-│       └── servers/             # Custom MCP servers
-├── config/
-│   ├── agents.json           # Fleet configuration
-│   ├── mcp_config.json       # MCP server definitions
-│   └── safety_policies.json  # Governance rules
-├── tests/
-│   ├── unit/
-│   ├── integration/
-│   └── e2e/
-└── deployment/
-    ├── docker-compose.yml
-    └── k8s/
+├── .claude/           # GitHub Spec Kit slash commands
+├── .specify/          # Spec Kit configuration & templates
+├── src/               # Source code
+│   ├── core/         # Planner, Worker, Judge services
+│   ├── memory/       # Memory systems (short-term, long-term)
+│   ├── mcp/          # MCP client & custom servers
+│   ├── generation/   # Content generation engine
+│   └── models.py     # Pydantic data models
+├── tests/            # Test suite
+│   ├── unit/         # Unit tests
+│   ├── integration/  # Integration tests
+│   └── e2e/          # End-to-end tests
+├── skills/           # Reusable agent capabilities
+├── config/           # Configuration files
+│   ├── safety_policies.json
+│   └── mcp_config.json
+├── .github/          # CI/CD workflows
+├── Dockerfile        # Container image
+├── Makefile          # Build automation
+└── SOUL.md           # Agent persona definition
 ```
 
-## Persona: Nova Intellect
+## Architecture
 
-**Voice**: Witty, sharp, playful, insightful, confident  
-**Platforms**: X (Twitter) and LinkedIn  
-**Niche**: AI, startups, emerging technology  
+### FastRender Swarm Pattern
 
-Nova is designed to:
-- Monitor TechCrunch and reputable tech news sources continuously
-- Generate platform-appropriate content (punchy for X, professional for LinkedIn)
-- Engage authentically with the tech community
-- Never hallucinate facts or give financial/legal advice
-- Disclose AI identity when asked directly
-
-Full persona definition: [SOUL.md](./SOUL.md)
-
-## Getting Started
-
-### Prerequisites
-
-- Python 3.11+
-- Docker & Docker Compose
-- Redis
-- Weaviate (or Weaviate Cloud)
-- API Keys:
-  - Gemini API (or Claude API)
-  - X (Twitter) API
-  - LinkedIn API
-  - TechCrunch/News APIs
-
-### Installation
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd Chimera-Autonomous-Influencer
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your API keys
-
-# Start infrastructure services
-docker-compose up -d
-
-# Run the orchestrator
-python src/main.py
+```
+Planner → Task Queue → Workers (pool) → Review Queue → Judge → Publish
+   ↑                                                        ↓
+   └────────────── HITL Queue (human review) ─────────────┘
 ```
 
-### Configuration
+**Planner**: Strategic task generation (trend detection, scheduling)  
+**Workers**: Stateless task executors (content generation, replies)  
+**Judge**: Quality validation (safety, persona alignment, confidence scoring)
 
-Edit `config/agents.json` to customize Nova's behavior:
-- Posting frequency
-- Platform distribution (X vs LinkedIn ratio)
-- Budget limits
-- HITL thresholds
+### Memory System
 
-## Safety & Governance
+- **Short-Term (Redis)**: Recent interactions, 2-hour TTL
+- **Long-Term (Weaviate)**: High-performing content, semantic search
 
-The system implements multiple safety layers:
+### MCP Servers
 
-1. **Confidence Scoring**: Every output gets scored 0.0–1.0
-   - \>0.90: Auto-approve
-   - 0.70–0.90: Async human review
-   - <0.70: Auto-reject and retry
+- **News Server**: Tech news aggregation (TechCrunch, AI research)
+- **X Server**: Twitter posting, mentions, timeline
+- **LinkedIn Server**: LinkedIn posting, comments
 
-2. **Sensitive Topic Filters**: Automatic escalation for:
-   - Political content
-   - Financial/legal advice
-   - Unverifiable claims
+## Development Workflow
 
-3. **Fact-Checking**: All factual claims validated against sources
+Following **Spec-Driven Development (SDD)** via GitHub Spec Kit:
 
-4. **Disclosure**: Automatic AI identity disclosure when asked
+1. **Constitution** (`/speckit.constitution`) - Define principles
+2. **Specify** (`/speckit.specify`) - Create specifications
+3. **Plan** (`/speckit.plan`) - Technical implementation plan
+4. **Tasks** (`/speckit.tasks`) - Actionable task breakdown
+5. **Implement** (`/speckit.implement`) - Code execution
+6. **Test** - Validate against specs
 
-## Development Roadmap
+## Safety & Ethics
 
-- [x] Phase 1: Foundation & Persona
-- [ ] Phase 2: Memory & Context System
-- [ ] Phase 3: MCP Integration Layer
-- [ ] Phase 4: Planner-Worker-Judge Core
-- [ ] Phase 5: Perception System
-- [ ] Phase 6: Content Generation Engine
-- [ ] Phase 7: Action & Publishing System
-- [ ] Phase 8: Safety & Governance
-- [ ] Phase 9: Testing & Validation
-- [ ] Phase 10: Deployment & Monitoring
+- ✅ **Transparent AI Disclosure** - Bio states "AI-powered"
+- ✅ **HITL Review** - Medium-confidence content requires human approval
+- ✅ **Safety Filters** - Banned keywords, sensitive topics
+- ✅ **Rate Limiting** - Platform API limits enforced
+- ✅ **Dry-Run Default** - All tests run in simulation mode
+
+## Current Status
+
+**Phase 4: Core Swarm Implementation** ✅
+- Planner service complete
+- Worker service complete
+- Judge service complete
+- ContentEngine complete
+
+**Next**: Integration testing & end-to-end validation
+
+## Contributing
+
+1. Follow GitHub Spec Kit workflow
+2. All changes must align with specifications
+3. Maintain >80% test coverage
+4. Use `make ci` before committing
 
 ## License
 
-Proprietary - AiQEM.tech
+[Your License Here]
 
 ## Contact
 
-For questions about Project Chimera, contact the development team.
+- **Project**: Project Chimera by AiQEM
+- **Agent**: Nova Intellect
+- **Methodology**: GitHub Spec Kit + Spec-Driven Development
 
 ---
 
-*Built with the FastRender Swarm Architecture and Model Context Protocol*
+**Built with GitHub Spec Kit** | **Powered by FastRender Swarm Architecture**
