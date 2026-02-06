@@ -12,6 +12,14 @@ from typing import Dict, List, Optional
 import yaml
 from pydantic import BaseModel, Field
 
+# Import memory managers (lazy imports to avoid circular dependencies)
+try:
+    from .short_term import ShortTermMemoryManager
+    from .long_term import LongTermMemoryManager
+except ImportError:
+    ShortTermMemoryManager = None
+    LongTermMemoryManager = None
+
 
 class AgentPersona(BaseModel):
     """
@@ -151,6 +159,8 @@ class ContextManager:
         input_query: str,
         short_term_memories: Optional[List[str]] = None,
         long_term_memories: Optional[List[str]] = None,
+        short_term_manager: Optional['ShortTermMemoryManager'] = None,
+        long_term_manager: Optional['LongTermMemoryManager'] = None,
     ) -> str:
         """
         Assemble complete context for LLM generation.
@@ -162,8 +172,10 @@ class ContextManager:
         
         Args:
             input_query: The current input/task
-            short_term_memories: Recent interaction history
-            long_term_memories: Semantically relevant past memories
+            short_term_memories: Pre-fetched recent interaction history (optional)
+            long_term_memories: Pre-fetched semantically relevant past memories (optional)
+            short_term_manager: Redis memory manager (fetches memories if not provided)
+            long_term_manager: Weaviate memory manager (fetches memories if not provided)
             
         Returns:
             Complete system prompt string
@@ -174,6 +186,10 @@ class ContextManager:
         context_parts.append(self.persona.to_system_prompt_section())
         
         # 2. Short-term memory (episodic)
+        # Auto-fetch from Redis if not provided
+        if short_term_memories is None and short_term_manager is not None:
+            short_term_memories = await short_term_manager.get_recent_summaries(hours=2.0, limit=10)
+        
         if short_term_memories:
             context_parts.append("# RECENT CONTEXT (Last 1-2 hours)\n")
             for memory in short_term_memories:
@@ -181,6 +197,10 @@ class ContextManager:
             context_parts.append("\n")
         
         # 3. Long-term memory (semantic)
+        # Auto-fetch from Weaviate if not provided
+        if long_term_memories is None and long_term_manager is not None:
+            long_term_memories = long_term_manager.get_memory_summaries(query=input_query, limit=5)
+        
         if long_term_memories:
             context_parts.append("# WHAT YOU REMEMBER (Relevant past experiences)\n")
             for memory in long_term_memories:
