@@ -1,0 +1,58 @@
+{
+    "agent_config": {
+        " agent_id": "nova",
+        "agent_name": "Nova Intellect",
+        "soul_file": "./SOUL.md"
+    },
+    "mcp_servers": {
+        "news": {
+            "command": "python",
+            "args": [
+                "src/mcp/servers/news_server.py"
+            ],
+            "description": "Tech news aggregation (TechCrunch, AI research)"
+        },
+        "x": {
+            "command": "python",
+            "args": [
+                "src/mcp/servers/x_server.py"
+            ],
+            "description": "X (Twitter) integration",
+            "env": {
+                "TWITTER_API_KEY": "${TWITTER_API_KEY}",
+                "TWITTER_API_SECRET": "${TWITTER_API_SECRET}",
+                "TWITTER_ACCESS_TOKEN": "${TWITTER_ACCESS_TOKEN}",
+                "TWITTER_ACCESS_SECRET": "${TWITTER_ACCESS_SECRET}",
+                "TWITTER_BEARER_TOKEN": "${TWITTER_BEARER_TOKEN}",
+                "DRY_RUN_MODE": "${DRY_RUN_MODE}"
+            }
+        },
+        "linkedin": {
+            "command": "python",
+            "args": [
+                "src/mcp/servers/linkedin_server.py"
+            ],
+            "description": "LinkedIn integration",
+            "env": {
+                "LINKEDIN_CLIENT_ID": "${LINKEDIN_CLIENT_ID}",
+                "LINKEDIN_CLIENT_SECRET": "${LINKEDIN_CLIENT_SECRET}",
+                "LINKEDIN_ACCESS_TOKEN": "${LINKEDIN_ACCESS_TOKEN}",
+                "DRY_RUN_MODE": "${DRY_RUN_MODE}"
+            }
+        }
+    },
+    "resource_polling": {
+        "news://tech/latest": {
+            "interval_seconds": 300,
+            "relevance_threshold": 0.75
+        },
+        "news://ai/research": {
+            "interval_seconds": 600,
+            "relevance_threshold": 0.75
+        },
+        "x://mentions/recent": {
+            "interval_seconds": 60,
+            "relevance_threshold": 0.70
+        }
+    }
+}

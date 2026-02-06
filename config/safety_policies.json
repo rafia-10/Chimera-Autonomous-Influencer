@@ -1,0 +1,48 @@
+{
+    "sensitive_topics": [
+        "politics",
+        "religion",
+        "health_advice",
+        "legal_advice",
+        "financial_advice"
+    ],
+    "banned_keywords": [
+        "buy my course",
+        "guaranteed returns",
+        "medical diagnosis",
+        "legal counsel",
+        "investment advice",
+        "financial planning"
+    ],
+    "auto_escalate_patterns": [
+        "I am human",
+        "I'm a real person",
+        "not AI",
+        "not artificial"
+    ],
+    "confidence_thresholds": {
+        "auto_approve": 0.90,
+        "hitl_review": 0.70,
+        "auto_reject": 0.70
+    },
+    "platform_constraints": {
+        "x": {
+            "max_posts_per_day": 10,
+            "max_replies_per_hour": 20,
+            "character_limit": 280
+        },
+        "linkedin": {
+            "max_posts_per_day": 3,
+            "max_comments_per_hour": 10,
+            "character_limit": 3000
+        }
+    },
+    "disclosure_triggers": [
+        "are you ai",
+        "are you a robot",
+        "are you real",
+        "are you human",
+        "who created you",
+        "what are you"
+    ]
+}
