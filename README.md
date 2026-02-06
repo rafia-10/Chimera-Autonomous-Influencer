@@ -1,184 +1,137 @@
-# Project Chimera - Autonomous AI Influencer
+# Project Chimera: Autonomous Tech Influencer
 
-**An autonomous AI influencer system powered by GitHub Spec Kit and FastRender Swarm Architecture**
-
-## Overview
-
-Project Chimera is an AI-powered social media influencer ("Nova Intellect") that autonomously creates and publishes content to X (Twitter) and LinkedIn using a Spec-Driven Development approach.
-
-### Key Features
-
-- 🤖 **Autonomous Content Creation** - Generates platform-optimized posts
-- 🎯 **Trending Topic Detection** - Monitors tech news and identifies opportunities
-- 💬 **Audience Engagement** - Responds to mentions and comments
-- 🧠 **Hierarchical Memory** - Short-term (Redis) + Long-term (Weaviate) memory systems
-- 🔌 **MCP Integration** - All external services via Model Context Protocol
-- 🛡️ **Safety First** - HITL review, confidence scoring, ethical disclosure
-- 📊 **Swarm Architecture** - Planner-Worker-Judge pattern for scalability
-
-## Tech Stack
-
-- **Language**: Python 3.11+
-- **LLM**: Google Gemini 2.0 Flash
-- **Memory**: Redis (short-term), Weaviate (long-term)
-- **Integration**: MCP (Model Context Protocol)
-- **Platforms**: X (Twitter), LinkedIn
-- **Development**: GitHub Spec Kit (Spec-Driven Development)
-
-## Quick Start
-
-### Prerequisites
-
-- Python 3.11+
-- Docker & Docker Compose
-- `uv` package manager
-- GitHub Spec Kit CLI
-
-### Installation
-
-```bash
-# Clone repository
-git clone <repository-url>
-cd Chimera-Autonomous-Influencer
-
-# Install dependencies
-make install-dev
-
-# Start infrastructure (Redis + Weaviate)
-make docker-up
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your API keys
-```
-
-### GitHub Spec Kit Setup
-
-```bash
-# Install Spec Kit CLI
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
-
-# Already initialized! Use slash commands:
-# /speckit.constitution - Define project principles
-# /speckit.specify - Create specifications
-# /speckit.plan - Generate implementation plan
-# /speckit.tasks - Break down into tasks
-# /speckit.implement - Execute implementation
-```
-
-### Running the System
-
-```bash
-# Development mode (dry-run, no actual posting)
-make run-dev
-
-# Run tests
-make test
-
-# Check code quality
-make lint
-
-# Format code
-make format
-```
-
-## Project Structure
-
-```
-Chimera-Autonomous-Influencer/
-├── .claude/           # GitHub Spec Kit slash commands
-├── .specify/          # Spec Kit configuration & templates
-├── src/               # Source code
-│   ├── core/         # Planner, Worker, Judge services
-│   ├── memory/       # Memory systems (short-term, long-term)
-│   ├── mcp/          # MCP client & custom servers
-│   ├── generation/   # Content generation engine
-│   └── models.py     # Pydantic data models
-├── tests/            # Test suite
-│   ├── unit/         # Unit tests
-│   ├── integration/  # Integration tests
-│   └── e2e/          # End-to-end tests
-├── skills/           # Reusable agent capabilities
-├── config/           # Configuration files
-│   ├── safety_policies.json
-│   └── mcp_config.json
-├── .github/          # CI/CD workflows
-├── Dockerfile        # Container image
-├── Makefile          # Build automation
-└── SOUL.md           # Agent persona definition
-```
-
-## Architecture
-
-### FastRender Swarm Pattern
-
-```
-Planner → Task Queue → Workers (pool) → Review Queue → Judge → Publish
-   ↑                                                        ↓
-   └────────────── HITL Queue (human review) ─────────────┘
-```
-
-**Planner**: Strategic task generation (trend detection, scheduling)  
-**Workers**: Stateless task executors (content generation, replies)  
-**Judge**: Quality validation (safety, persona alignment, confidence scoring)
-
-### Memory System
-
-- **Short-Term (Redis)**: Recent interactions, 2-hour TTL
-- **Long-Term (Weaviate)**: High-performing content, semantic search
-
-### MCP Servers
-
-- **News Server**: Tech news aggregation (TechCrunch, AI research)
-- **X Server**: Twitter posting, mentions, timeline
-- **LinkedIn Server**: LinkedIn posting, comments
-
-## Development Workflow
-
-Following **Spec-Driven Development (SDD)** via GitHub Spec Kit:
-
-1. **Constitution** (`/speckit.constitution`) - Define principles
-2. **Specify** (`/speckit.specify`) - Create specifications
-3. **Plan** (`/speckit.plan`) - Technical implementation plan
-4. **Tasks** (`/speckit.tasks`) - Actionable task breakdown
-5. **Implement** (`/speckit.implement`) - Code execution
-6. **Test** - Validate against specs
-
-## Safety & Ethics
-
-- ✅ **Transparent AI Disclosure** - Bio states "AI-powered"
-- ✅ **HITL Review** - Medium-confidence content requires human approval
-- ✅ **Safety Filters** - Banned keywords, sensitive topics
-- ✅ **Rate Limiting** - Platform API limits enforced
-- ✅ **Dry-Run Default** - All tests run in simulation mode
-
-## Current Status
-
-**Phase 4: Core Swarm Implementation** ✅
-- Planner service complete
-- Worker service complete
-- Judge service complete
-- ContentEngine complete
-
-**Next**: Integration testing & end-to-end validation
-
-## Contributing
-
-1. Follow GitHub Spec Kit workflow
-2. All changes must align with specifications
-3. Maintain >80% test coverage
-4. Use `make ci` before committing
-
-## License
-
-[Your License Here]
-
-## Contact
-
-- **Project**: Project Chimera by AiQEM
-- **Agent**: Nova Intellect
-- **Methodology**: GitHub Spec Kit + Spec-Driven Development
+**An autonomous AI influencer system built with the GitHub Spec Kit and FastRender Swarm Architecture.**
 
 ---
 
-**Built with GitHub Spec Kit** | **Powered by FastRender Swarm Architecture**
+## 🌟 Overview
+
+Project Chimera is an advanced AI agent system designed to operate **Nova Intellect**, a tech-focused influencer on X (Twitter) and LinkedIn. Leveraging the **Model Context Protocol (MCP)** and a **Spec-Driven Development (SDD)** approach, Chimera ensures high-quality, persona-aligned, and safe content generation.
+
+### Key Innovations
+- **FastRender Swarm Architecture**: A robust **Planner-Worker-Judge** pattern that separates strategic planning from tactical execution and quality enforcement.
+- **Spec-Driven Development**: The official [GitHub Spec Kit](https://github.com/github/spec-kit) is the source of truth for all system behaviors, interfaces, and constraints.
+- **Hierarchical Memory**: Combines **Redis** (episodic/short-term) and **Weaviate** (semantic/long-term) for deep contextual awareness.
+- **MCP Integration**: Uses the Model Context Protocol to abstract all external services (news, social platforms).
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    subgraph Swarm Core
+        P[Planner Service] -->|Task Queue| W[Worker Pool]
+        W -->|Review Queue| J[Judge Service]
+        J -->|Approved| Pub[Publisher]
+        J -->|Escalated| HITL[Human-in-the-Loop]
+    end
+
+    subgraph Memory Layer
+        P <--> Redis[(Short-Term)]
+        W <--> Weaviate[(Long-Term)]
+        P <--> SOUL[SOUL.md Persona]
+    end
+
+    subgraph Integration Layer
+        Pub --> MCP[MCP Client]
+        MCP --> X[X API]
+        MCP --> L[LinkedIn API]
+        P --> News[News MCP Server]
+    end
+```
+
+---
+
+## 📂 Project Structure
+
+Verified and structured according to the **GitHub Spec Kit** methodology:
+
+```
+Chimera-Autonomous-Influencer/
+├── specs/             # SOURCE OF TRUTH (SDD)
+│   ├── _meta.md       # Vision, Goals, & Constraints
+│   ├── functional.md  # User Stories & Requirements
+│   ├── technical.md   # API Contracts & Architecture
+│   └── openclaw_integration.md # Future Network Plan
+├── skills/            # REUSABLE AGENT SKILLS
+│   ├── social_posting/
+│   ├── trend_detection/
+│   └── audience_engagement/
+├── src/               # SOURCE CODE
+│   ├── core/          # Planner, Worker, Judge Services
+│   ├── memory/        # Redis & Weaviate Integrations
+│   ├── generation/    # Content Engine & Adapters
+│   └── mcp/           # MCP Client & Servers
+├── tests/             # VERIFICATION SUITE
+│   ├── unit/          # Logic & Skills testing
+│   ├── integration/   # Swarm & Memory testing
+│   └── e2e/           # Dry-run full cycles
+├── SOUL.md            # Persona Core (Immutable DNA)
+├── Makefile           # Build & Task Automation
+└── Dockerfile         # Deployment Container
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+- Python 3.11+
+- Docker & Docker Compose
+- Redis & Weaviate (Local or Managed)
+- API Keys: Gemini/Claude, X, LinkedIn, TechNews
+
+### 2. Setup
+```bash
+# Install dependencies
+make install
+
+# Configure environment
+cp .env.example .env
+# [Edit .env with your credentials]
+
+# Start infrastructure
+make docker-up
+```
+
+### 3. Development Workflow
+The system uses the **GitHub Spec Kit** for development:
+- **Analyze Specs**: `/speckit.analyze`
+- **Check Alignment**: `make ci` (runs lint + tests)
+- **Run Swarm**: `make run-dev` (Dry-run mode)
+
+---
+
+## 🧠 Core System Design
+
+### FastRender Swarm Pattern
+1.  **Planner**: Monitors tech news trends via MCP and decomposes them into specific content tasks.
+2.  **Worker**: Executes tasks (e.g., generating an X thread) using pre-defined **Skills**.
+3.  **Judge**: Validates the output against safety policies and the **SOUL.md** persona.
+4.  **HITL**: Content with medium confidence (0.7-0.9) is paused for human review.
+
+### Skill Library
+Located in `skills/`, these are the "books" Nova reads to learn how to do things:
+- [`trend_detection`](./skills/trend_detection/SKILL.md)
+- [`social_posting`](./skills/social_posting/SKILL.md)
+- [`audience_engagement`](./skills/audience_engagement/SKILL.md)
+
+### OpenClaw Integration
+Nova is designed to be an open participant in the AI agent economy. Our integration plan enables other agents to discover and collaborate with Nova via her MCP endpoint.
+- **Reference**: [OpenClaw Integration Spec](./specs/openclaw_integration.md)
+
+---
+
+## 🛡️ Safety & Governance
+- **Zero-Hallucination Policy**: All factual claims must be traceable to MCP news resources.
+- **Transparent AI**: Nova always discloses her AI nature in her bio and when asked.
+- **Rate Limit Enforcement**: Hard limits on platform API calls to prevent suspensions.
+
+---
+
+## 📜 License
+Proprietary - **AiQEM.tech**
+
+---
+*Built with the GitHub Spec Kit | Powered by FastRender Swarm*
